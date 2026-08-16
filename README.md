@@ -4,14 +4,6 @@
 
 **project-codey** is a template for a Windows‑based, GPU‑accelerated **local LLM** development environment that integrates with **Visual Studio Code** and **GitHub Copilot**.  It showcases how to host local model (Gemma 4 12B + GPT‑OSS 20B) using **Ollama** and use it as a primary coding assistant with **Visual Studio Code**.  
 
-The project includes:
-- A detailed installation and configuration guide written in PowerShell
-- A **Mermaid** architecture diagram that visualises the flow from VS Code → Copilot → Ollama → GPU
-- Validations (example prompts, GPU monitoring, latency checks)
-- Troubleshooting tips
-- Recommended alternative models and tooling
-- Performance metrics and how to capture them.
-
 ## Table of Contents
 - [Overview](#overview)
 - [System Requirements](#system-requirements)
@@ -32,7 +24,7 @@ Feel free to copy, tweak, or extend this repository to suit your own local‑AI 
 
 | Component | Minimum | Recommended | Notes |
 |-----------|---------|-------------|-------|
-| OS | Windows 10 / 11 (64‑bit) | Same | Also supported in Linux and MacOS |
+| OS | Windows 10 / 11 (64‑bit) | Same | Also supported with Linux and MacOS |
 | GPU | Nvidia GTX 10xx+ (supports CUDA 11.8) | RTX 5050 Ti 16 GB | Ensure the latest driver is installed from NVIDIA |
 | CPU | Dual‑core | Quad‑core or better | Needed for local inference when GPU is busy |
 | RAM | 4 GB | 8 GB+ | For running VS Code + Ollama |
@@ -45,58 +37,41 @@ Feel free to copy, tweak, or extend this repository to suit your own local‑AI 
 ## Installation & Configuration (PowerShell)
 
 1. **Open PowerShell as Administrator** (required for installing the system‑wide Ollama binary).
-2. Create a new folder if you haven’t already:
-   ```powershell
-   New-Item -ItemType Directory -Path "C:\Users\starh\Projects\project-codey"
-   ```
-3. Change to that folder:
-   ```powershell
-   Set-Location -Path "C:\Users\starh\Projects\project-codey"
-   ```
-4. Download and install **Ollama**:
-   ```powershell
-   # Official installer script (public URL)
-   Invoke-WebRequest -Uri "https://ollama.com/install.ps1" -OutFile "$env:TEMP\ollama-install.ps1"
-   & "$env:TEMP\ollama-install.ps1"
-   `nRemove-Item "$env:TEMP\ollama-install.ps1"
-   ```
-5. Pull the desired models:
-   ```powershell
-   # Gemma 4 12 B (use the exact model name from Ollama’s catalog)
-   ollama pull gemma4:12b
 
-   # GPT‑OSS 20 B (replace with the correct name in the catalog)
-   ollama pull gptoss20b:20b
-   ```
-6. **Start the Ollama daemon** (runs in the background):
+2. **Ollama Installation & Model Hosting**
    ```powershell
-   Start-Process -FilePath "ollama" -ArgumentList "serve" -WindowStyle Hidden
+   # Install the Ollama binary using the official PowerShell script
+   irm https://ollama.com/install.ps1 | iex
    ```
-   Verify it’s running:
+   This single line downloads the installer from the official source and executes it.
+   For more information on installing Ollama for Windows, see the official
+   download page: https://ollama.com/download/windows
+
+3. Pull the desired models.  The GPU has 16 GB VRAM, so we selected models that
+   stay comfortably below that limit:
+   * **Gemma 4 12B** – a compact, high‑performance model for prompt‑based
+     code generation. [Official page](https://ollama.com/library/gemma4:12b)
+   * **GPT‑OSS 20B** – a slightly larger model that provides more context
+     while still fitting within 16 GB.  These models let you experiment with
+     both the fast 12B and the more power‑hungry 20B options. [Official page](https://ollama.com/library/gpt-oss:20b)
+   
+   ```powershell
+   ollama pull gemma4:12b
+   ollama pull gpt-oss:20b
+   ```
+
+4. Verify models are available:
    ```powershell
    ollama list
    ```
-   You should see `gemma4:12b` and `gptoss20b:20b` listed.
-7. **Integrate with VS Code – Copilot Extension**:
-   - Install the `GitHub Copilot` extension via the VS Code marketplace.
-   - Open **User Settings** (`File → Preferences → Settings`).
-   - Search for **Copilot – Local model** and enable the experimental local model integration:
-     ```json
-     {
-       "github.copilot.experimental.local.enabled": true,
-       "github.copilot.experimental.local.provider": "ollama",
-       "github.copilot.experimental.local.apiUrl": "http://localhost:11434/api/generate",
-       "github.copilot.experimental.local.model": "gemma4:12b"
-     }
-     ```
-   - Save the settings.  Restart VS Code.
-8. **Verification** – Open a new file, type a comment such as:
-   ```text
-   // Prompt the local model to confirm it works
+   The output should list `gemma4:12b` and `gpt-oss:20b`.
    ```
-   Then press `<Ctrl+Shift+Enter>` (Copilot chat) or use the `Copilot → Open Chat` command and type: `Hello, world!`.
-   The local model should return a coherent reply.  If it fails, see **Troubleshooting**.
 
+5. **Optional** – Verify a model by generating a short prompt:
+   ```powershell
+   ollama run gemma4:12b "What is the capital of India?"
+   ```
+   If a response appears, the model is working.
 ---
 
 ## Architecture Diagram
@@ -118,7 +93,7 @@ flowchart TD
 | Step | Command / Action | Expected Result |
 |------|-----------------|----------------|
 |1|`ollama run gemma4:12b --prompt "Hello, world!"`|Returns a generated text string without errors|
-|2|`ollama run gptoss20b:20b --prompt "Define a function in Python"`|Shows a reasonable Python function|
+|2|`ollama run gpt-oss:20b --prompt "Define a function in Python"`|Shows a reasonable Python function|
 |3|`nvidia-smi --query-gpu=memory.used,gpu_utilization --format=csv`|Displays current memory usage and GPU utilization (should spike above 10 % during inference) |
 |4|VS Code → Copilot Chat → type `Explain recursion in C++`|Local model replies with an explanation|
 |5|Measure latency: `Measure-Command { ollama run gemma4:12b --prompt "Test" }`|Approximately X ms (capture for comparison) |

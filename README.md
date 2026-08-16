@@ -10,7 +10,6 @@
 - [Run Models - Locally](#run-models---locally)
 - [Install VS Code Setup](#install-vscode-setup)
 - [Architecture Diagram](#architecture-diagram)
-- [Validation Checklist](#validation-checklist)
 - [Performance Metrics](#performance-metrics)
 - [Troubleshooting](#troubleshooting)
 - [Alternative Tools & Models](#alternative-tools--models)
@@ -144,26 +143,13 @@ Follow these steps to install the **Visual Studio Code**, **GitHub Copilot Exten
 ```mermaid
 flowchart TD
     A[VS Code] -->|Chat Prompt| B[GitHub Copilot Extension]
-    B -->|Local-LLM request| C[Ollama daemon localhost:11434]
-    C -->|Inference| D[GPU NVIDIA RTX 5050 Ti]
+    B -->|Local‑LLM request| C[Ollama daemon localhost:11434]
+    C -->|Local model| E[Ollama local model]
+    E -->|Inference| D[GPU NVIDIA RTX 5050 Ti]
     D -->|Result| C
     C -->|Response| B
     B -->|Chat reply| A
 ```
-
----
-
-## Validation Checklist
-
-| Step | Command / Action | Expected Result |
-|------|-----------------|----------------|
-|1|`ollama run gemma4:12b --prompt "Hello, world!"`|Returns a generated text string without errors|
-|2|`ollama run gpt-oss:20b --prompt "Define a function in Python"`|Shows a reasonable Python function|
-|3|`nvidia-smi --query-gpu=memory.used,gpu_utilization --format=csv`|Displays current memory usage and GPU utilization (should spike above 10 % during inference) |
-|4|VS Code → Copilot Chat → type `Explain recursion in C++`|Local model replies with an explanation|
-|5|Measure latency: `Measure-Command { ollama run gemma4:12b --prompt "Test" }`|Approximately X ms (capture for comparison) |
-
----
 
 ## Performance Metrics
 

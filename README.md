@@ -73,18 +73,23 @@ If a response appears, the model is working.
 ## Install VS Code Setup
 Follow these steps to install the **Visual Studio Code**, **GitHub Copilot Extension**, the **Ollama VS Code Extension**, and add a custom model definition so that Copilot can discover your local Ollama models.
 
-1. **Install GitHub Copilot**
+1. **Install Visual Studio Code**
+    * Download the installer from the official Microsoft site: https://code.visualstudio.com/download
+    * Run the installer and follow the prompts, choosing the default options.
+    * Restart your computer if requested.
+
+2. **Install GitHub Copilot**
     * Open VS Code, go to the Extensions view (`Ctrl+Shift+X`).
     * Search for `GitHub Copilot` and click **Install**.
     * Sign into your GitHub account via the command palette (`Ctrl+Shift+P`) → `GitHub Copilot: Sign in`.
 
-2. **Install Ollama Extension**
+3. **Install Ollama Extension**
     * Search for `Ollama` in the Extensions view and install the official extension.
     * This extension enables local model chat and a quick‑start button.
 
-3. **Add a custom model definition**
-    * Edit the file `C:\Users\starh\AppData\Roaming\Code\User\chatLanguageModels.json` by pressing `CTRL+SHIFT+P`
-    and type `Chat: Open Language Models `
+4. **Add a custom model definition**
+    * Edit the file `C:\Users\starh\AppData\Roaming\Code\User\chatLanguageModels.json` by pressing `Ctrl+Shift+P`
+    → `Chat: Open Language Models `
     * Add the following content to expose your pulled models to Copilot:
        ```json
        {
@@ -125,11 +130,11 @@ Follow these steps to install the **Visual Studio Code**, **GitHub Copilot Exten
        ```
     * Save the file and reload VS Code to make the models available.
 
-4. **Select a custom model in Copilot Chat**
+5. **Select a custom model in Copilot Chat**
     * In the Copilot Chat pane, click the **Model** drop‑down.
     * Choose **Gemma 4** or **GPT‑OSS** from the list.
 
-5. **Test the model**
+6. **Test the model**
     * Type a prompt such as `Explain how recursion works in Python` into the Chat input.
     * Verify the assistant responds using your local Ollama model.
 ---
@@ -138,9 +143,9 @@ Follow these steps to install the **Visual Studio Code**, **GitHub Copilot Exten
 
 ```mermaid
 flowchart TD
-    A[VS Code] -->|Chat Prompt| B[GitHub Copilot Extension]
-    B -->|Local‑LLM request| C[Ollama daemon (localhost:11434)]
-    C -->|Inference| D[GPU (NVIDIA RTX 5050 Ti)]
+    A[VS Code] -->|Chat Prompt| B[GitHub Copilot Extension]
+    B -->|Local-LLM request| C[Ollama daemon (localhost:11434)]
+    C -->|Inference| D[GPU (NVIDIA RTX 5050 Ti)]
     D -->|Result| C
     C -->|Response| B
     B -->|Chat reply| A

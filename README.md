@@ -11,6 +11,7 @@
 - [Install VS Code Setup](#install-vscode-setup)
 - [Architecture Diagram](#architecture-diagram)
 - [Performance Metrics](#performance-metrics)
+- [Practical Use‑Case](#practical-usecase)
 - [Verdict](#verdict)
 - [License](#license)
 
@@ -150,7 +151,6 @@ flowchart TD
 ```
 
 ## Performance Metrics
-## Verdict
 
 1. **Latency** – Time from sending a prompt to receiving the first token.
    ```powershell
@@ -180,9 +180,7 @@ flowchart TD
 
 ---
 
-## Verdict
-
-### Practical Use‑Case
+## Practical Use‑Case
 
 In an on‑prem development environment the **local LLM coding agent** serves several pragmatic purposes:
 
@@ -194,7 +192,7 @@ In an on‑prem development environment the **local LLM coding agent** serves 
     - If the response is incomplete or the model struggles with a specialized domain, forward the prompt to a cloud API that has a larger context or newer training data.
 5. **Performance tuning** – The local model’s inference latency can be measured, tuned, and benchmarked with the metrics tools we added. If latency or token‑throughput are below expectations, you can tweak batch size, model precision (FP16 vs FP32), or even switch to a different open‑weight model.
 
-### Verdict
+## Verdict
 
 Combining a locally hosted LLM with a cloud‑based model gives the best of both worlds:
 
@@ -212,7 +210,3 @@ This hybrid strategy is becoming a standard pattern in enterprise code‑generat
 This project is licensed under the MIT License. See the **LICENSE** file for details.
 
 ---
-
-## Feedback & Contributions
-
-Feel free to open issues or pull requests. Contributions that improve the installation scripts, add new model recipes, or document more use‑cases are welcome!

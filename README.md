@@ -7,7 +7,8 @@
 ## Table of Contents
 - [Overview](#overview)
 - [System Requirements](#system-requirements)
-- [Installation & Configuration](#installation--configuration-powershell)
+- [Run Models - Locally](#run-models---locally)
+- [Install VS Code Setup](#install-vscode-setup)
 - [Architecture Diagram](#architecture-diagram)
 - [Validation Checklist](#validation-checklist)
 - [Performance Metrics](#performance-metrics)
@@ -34,40 +35,103 @@ Feel free to copy, tweak, or extend this repository to suit your own local‑AI 
 
 ---
 
-## Installation & Configuration (PowerShell)
+## Run Models - Locally
 
 1. **Open PowerShell as Administrator** (required for installing the system‑wide Ollama binary).
 
 2. **Ollama Installation & Model Hosting**
-   ```powershell
-   # Install the Ollama binary using the official PowerShell script
-   irm https://ollama.com/install.ps1 | iex
-   ```
-   This single line downloads the installer from the official source and executes it.
-   For more information on installing Ollama for Windows, see the official
-   download page: https://ollama.com/download/windows
+```powershell
+# Install the Ollama binary using the official PowerShell script
+irm https://ollama.com/install.ps1 | iex
+```
+This single line downloads the installer from the official source and executes it.
+For more information on installing Ollama for Windows, see the official
+download page: https://ollama.com/download/windows
 
 3. Pull the desired models.  The GPU has 16 GB VRAM, so we selected models that
-   stay comfortably below that limit:
-    * **[Gemma 4 12B](https://ollama.com/library/gemma4:12b)** – Google's open-weight models designed to deliver frontier-level performance at each size. They are well-suited for reasoning, agentic workflows, coding, and multimodal understanding.
-    * **[GPT‑OSS 20B](https://ollama.com/library/gpt-oss:20b)** – OpenAI’s open-weight models designed for powerful reasoning, agentic tasks, and versatile developer use cases.
-   
-   ```powershell
-   ollama pull gemma4:12b
-   ollama pull gpt-oss:20b
-   ```
+stay comfortably below that limit:
+* **[Gemma 4 12B](https://ollama.com/library/gemma4:12b)** – Google's open-weight models designed to deliver frontier-level performance at each size. They are well-suited for reasoning, agentic workflows, coding, and multimodal understanding.
+* **[GPT‑OSS 20B](https://ollama.com/library/gpt-oss:20b)** – OpenAI’s open-weight models designed for powerful reasoning, agentic tasks, and versatile developer use cases.
+
+```powershell
+ollama pull gemma4:12b
+ollama pull gpt-oss:20b
+```
 
 4. Verify models are available:
-   ```powershell
-   ollama list
-   ```
-   The output should list `gemma4:12b` and `gpt-oss:20b`.
+```powershell
+ollama list
+```
+The output should list `gemma4:12b` and `gpt-oss:20b`.
 
 5. **Optional** – Verify a model by generating a short prompt:
-   ```powershell
-   ollama run gemma4:12b "What is the capital of India?"
-   ```
-   If a response appears, the model is working.
+```powershell
+ollama run gemma4:12b "What is the capital of India?"
+```
+If a response appears, the model is working.
+
+## Install VS Code Setup
+Follow these steps to install the **Visual Studio Code**, **GitHub Copilot Extension**, the **Ollama VS Code Extension**, and add a custom model definition so that Copilot can discover your local Ollama models.
+
+1. **Install GitHub Copilot**
+    * Open VS Code, go to the Extensions view (`Ctrl+Shift+X`).
+    * Search for `GitHub Copilot` and click **Install**.
+    * Sign into your GitHub account via the command palette (`Ctrl+Shift+P`) → `GitHub Copilot: Sign in`.
+
+2. **Install Ollama Extension**
+    * Search for `Ollama` in the Extensions view and install the official extension.
+    * This extension enables local model chat and a quick‑start button.
+
+3. **Add a custom model definition**
+    * Edit the file `C:\Users\starh\AppData\Roaming\Code\User\chatLanguageModels.json` by pressing `CTRL+SHIFT+P`
+    and type `Chat: Open Language Models `
+    * Add the following content to expose your pulled models to Copilot:
+       ```json
+       {
+		"name": "Ollama-Coders",
+		"vendor": "customendpoint",
+		"models": [
+			{
+				"id": "gemma4:12b",
+				"name": "Gemma 4",
+				"url": "http://localhost:11434/v1/chat/completions",
+				"vision": true,
+				"apiType": "chat-completions",
+				"contextWindow": 262144,
+				"maxOutputTokens": 16384,
+				"toolCalling": true,
+				"streaming": true,
+				"thinking": false
+			},
+			{
+				"id": "gpt-oss:20b",
+				"name": "GPT-OSS",
+				"url": "http://localhost:11434/v1/chat/completions",
+				"vision": true,
+				"contextWindow": 131072,
+				"maxOutputTokens": 16384,
+				"toolCalling": true,
+				"streaming": true,
+				"thinking": true,
+				"supportsReasoningEffort": [
+					"low",
+					"medium",
+					"high"
+				],
+				"reasoningEffortFormat": "chat-completions"
+			}
+		]
+	  }
+       ```
+    * Save the file and reload VS Code to make the models available.
+
+4. **Select a custom model in Copilot Chat**
+    * In the Copilot Chat pane, click the **Model** drop‑down.
+    * Choose **Gemma 4** or **GPT‑OSS** from the list.
+
+5. **Test the model**
+    * Type a prompt such as `Explain how recursion works in Python` into the Chat input.
+    * Verify the assistant responds using your local Ollama model.
 ---
 
 ## Architecture Diagram

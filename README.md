@@ -144,8 +144,8 @@ Follow these steps to install the **Visual Studio Code**, **GitHub Copilot Exten
 ```mermaid
 flowchart TD
     A[VS Code] -->|Chat Prompt| B[GitHub Copilot Extension]
-    B -->|Local-LLM request| C[Ollama daemon (localhost:11434)]
-    C -->|Inference| D[GPU (NVIDIA RTX 5050 Ti)]
+    B -->|Local-LLM request| C[Ollama daemon localhost:11434]
+    C -->|Inference| D[GPU NVIDIA RTX 5050 Ti]
     D -->|Result| C
     C -->|Response| B
     B -->|Chat reply| A

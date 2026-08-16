@@ -2,15 +2,27 @@
 
 ## Overview
 
-**project-codey** is a template for a Windows‑based, GPU‑accelerated **local LLM** development environment that integrates with **Visual Studio Code** and **GitHub Copilot**.  It showcases how to host an **Ollama** local model (Gemma 4 12B + GPT‑OSS 20B) and use it as a primary coding assistant.  The project includes:
+**project-codey** is a template for a Windows‑based, GPU‑accelerated **local LLM** development environment that integrates with **Visual Studio Code** and **GitHub Copilot**.  It showcases how to host local model (Gemma 4 12B + GPT‑OSS 20B) using **Ollama** and use it as a primary coding assistant with **Visual Studio Code**.  
 
-- A professional repository structure (MIT licence, .gitignore, etc.)
+The project includes:
 - A detailed installation and configuration guide written in PowerShell
 - A **Mermaid** architecture diagram that visualises the flow from VS Code → Copilot → Ollama → GPU
 - Validations (example prompts, GPU monitoring, latency checks)
 - Troubleshooting tips
 - Recommended alternative models and tooling
 - Performance metrics and how to capture them.
+
+## Table of Contents
+- [Overview](#overview)
+- [System Requirements](#system-requirements)
+- [Installation & Configuration](#installation--configuration-powershell)
+- [Architecture Diagram](#architecture-diagram)
+- [Validation Checklist](#validation-checklist)
+- [Performance Metrics](#performance-metrics)
+- [Troubleshooting](#troubleshooting)
+- [Alternative Tools & Models](#alternative-tools--models)
+- [License](#license)
+- [Feedback & Contributions](#feedback--contributions)
 
 Feel free to copy, tweak, or extend this repository to suit your own local‑AI workflow.
 
@@ -20,13 +32,13 @@ Feel free to copy, tweak, or extend this repository to suit your own local‑AI 
 
 | Component | Minimum | Recommended | Notes |
 |-----------|---------|-------------|-------|
-| OS | Windows 10 / 11 (64‑bit) | Same | PowerShell 5.1+ |
-| GPU | Nvidia GTX 10xx+ (supports CUDA 11.8) | RTX 5050 Ti 16 GB | Ensure the latest driver is installed from NVIDIA.com |
+| OS | Windows 10 / 11 (64‑bit) | Same | Also supported in Linux and MacOS |
+| GPU | Nvidia GTX 10xx+ (supports CUDA 11.8) | RTX 5050 Ti 16 GB | Ensure the latest driver is installed from NVIDIA |
 | CPU | Dual‑core | Quad‑core or better | Needed for local inference when GPU is busy |
-| RAM | 8 GB | 16 GB+ | For running VS Code + Ollama |
+| RAM | 4 GB | 8 GB+ | For running VS Code + Ollama |
 | Disk | 10 GB free | 30 GB+ | 20 GB is minimum for large models |
 
-> **Tip:** Use the `nvidia-smi` command from a terminal or PowerShell to verify driver and GPU availability.
+> **Tip:** Use the `nvidia-smi` command from a terminal or PowerShell to verify driver and GPU availability and `Windows Task Manager` to check real-time GPU vRAM usage while thile the mode is running.
 
 ---
 

@@ -49,11 +49,8 @@ Feel free to copy, tweak, or extend this repository to suit your own local‑AI 
 
 3. Pull the desired models.  The GPU has 16 GB VRAM, so we selected models that
    stay comfortably below that limit:
-   * **Gemma 4 12B** – a compact, high‑performance model for prompt‑based
-     code generation. [Official page](https://ollama.com/library/gemma4:12b)
-   * **GPT‑OSS 20B** – a slightly larger model that provides more context
-     while still fitting within 16 GB.  These models let you experiment with
-     both the fast 12B and the more power‑hungry 20B options. [Official page](https://ollama.com/library/gpt-oss:20b)
+    * **[Gemma 4 12B](https://ollama.com/library/gemma4:12b)** – Google's open-weight models designed to deliver frontier-level performance at each size. They are well-suited for reasoning, agentic workflows, coding, and multimodal understanding.
+    * **[GPT‑OSS 20B](https://ollama.com/library/gpt-oss:20b)** – OpenAI’s open-weight models designed for powerful reasoning, agentic tasks, and versatile developer use cases.
    
    ```powershell
    ollama pull gemma4:12b
@@ -65,7 +62,6 @@ Feel free to copy, tweak, or extend this repository to suit your own local‑AI 
    ollama list
    ```
    The output should list `gemma4:12b` and `gpt-oss:20b`.
-   ```
 
 5. **Optional** – Verify a model by generating a short prompt:
    ```powershell

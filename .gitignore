@@ -1,0 +1,41 @@
+# .gitignore
+
+# Windows image file cache directories
+Thumbs.db
+ehthumbs.db
+
+# Files that might appear in the cloud when using web services
+.DS_Store
+
+# Folder for VS Code generated files
+.vscode/
+
+# User settings and extensions are ignored
+.vscode/settings.json
+.vscode/extensions.json
+
+# .env files storing secrets
+.env
+
+# Generated binary/executable files
+*.exe
+*.dll
+
+# Logs and other temporary files
+*.log
+
+# Node modules and Python packages if used
+node_modules/
+.pipenv
+.Python
+
+# IntelliJ and other IDEs
+.idea/
+.merlin
+
+# Database files
+*.db
+
+# Misc
+*.tmp
+*.tmp*
